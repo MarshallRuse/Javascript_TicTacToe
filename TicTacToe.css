@@ -23,8 +23,17 @@ header {
 	font-size: 1em;
 }
 
-.playerForm input[type=submit] {
+.playerForm button {
 	margin-top: 10px;
+	border-radius: 10px;
+}
+
+#turnDisplay {
+	text-align: center;
+}
+
+#winDisplay {
+	display: none;
 }
 
 #player1Card {
@@ -33,4 +42,20 @@ header {
 
 #player2Card {
 	display: none;
+}
+
+#startButton {
+	display: block;
+	visibility: hidden;
+	height: 3em;
+	width: 100%;
+	border-radius: 10px;
+}
+
+#restartButton {
+	display: none;
+	visibility: hidden;
+	height: 3em;
+	width: 100%;
+	border-radius: 10px;
 }

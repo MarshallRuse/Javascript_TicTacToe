@@ -18,7 +18,7 @@ var Tile = (pos, move) => {
 	return {makeMove, getPosition, getMoveMarker};
 }
 
-var gameBoard = (() => {
+var GameBoard = (() => {
 
 	var board = {};
 	board.positions = new Array(9);
@@ -98,16 +98,23 @@ var gameBoard = (() => {
 
 	const makeMove = (position, moveMarker) => {
 		if (isLegalMove){
-			moveMarker = moveMarker.toUpperCase();
-			board.positions[position].makeMove(moveMarker);
 			squares[position].innerHTML = moveMarker;
+			board.positions[position].makeMove(moveMarker);
 			GamePlay.changeTurn();
 			return true; //legal move made
 		}
 		return false; //legal move not made
 	}
 
-	return {board, makeMove, winningState};
+	const clearBoard = () => {
+		for (let i = 0; i < squares.length; i++){
+			squares[i].innerHTML = "";
+			board.positions[i] = i;
+		}
+
+	}
+
+	return {board, makeMove, winningState, clearBoard};
 })();
 
 var Player = (num, name, symbol) => {
@@ -210,6 +217,7 @@ function addListeners(){
 		playerForms[i].querySelector(".readyButton").addEventListener("click", function(e){
 			e.preventDefault();
 			players[i] = PlayerForm.getPlayerInfo(playerForms[i]);
+			GamePlay.isReady();
 		});
 	}
 
@@ -219,7 +227,7 @@ function addListeners(){
 		gameTiles[i].addEventListener("click", function(e){
 			var pos = this.getAttribute("data-position-num");
 			console.log("current symbol is: " + GamePlay.currentPlayerSymbol());
-			gameBoard.makeMove(pos, GamePlay.currentPlayerSymbol());
+			GameBoard.makeMove(pos, GamePlay.currentPlayerSymbol());
 		});
 	}
 
@@ -237,6 +245,17 @@ var GamePlay = (() => {
 
 	var isP1Turn;
 
+	const isReady = () => {
+		let allReady = false;
+		if (players[0] && players[1]){
+			allReady = true;
+		}
+
+		if (allReady){
+			document.querySelector("#startButton").style.visibility = "visible";
+		}
+	}
+
 	const flipCoin = () => {
 		let num = Math.random();
 		if (num < 0.5){
@@ -247,6 +266,7 @@ var GamePlay = (() => {
 		}
 	}
 
+
 	const currentPlayerSymbol = () => {
 		if (isP1Turn){
 			return players[0].getMarker();
@@ -256,14 +276,10 @@ var GamePlay = (() => {
 		}
 	}
 
-	const nextTurnSymbol = () => {
-		
-	}
 
 	var changeTurn = () => {
-		displayTurn();
-		console.log(gameBoard.winningState());
-		if (gameBoard.winningState() || turnCount >= 8){
+		console.log(GameBoard.winningState());
+		if (GameBoard.winningState() || turnCount >= 8){
 			stop();
 		}
 		else{
@@ -276,38 +292,92 @@ var GamePlay = (() => {
 				isP1Turn = true;
 			}
 		}
+		displayTurn();
 	}
 
 	const displayTurn = () => {
+		var turnDisplayHeader = document.querySelector("#turnDisplay").querySelector("h1");
 		var turnDisplay = document.querySelector("#turnDisplay").querySelector("h2");
+
+		if (turnCount === 0){
+			turnDisplayHeader.innerHTML = "Start!<br>First turn goes to:";
+		}
+		else {
+			turnDisplayHeader.innerHTML = "Turn: ";
+		}
 		turnDisplay.innerHTML = currentPlayerSymbol();
+	}
+
+
+	const displayWin = (win, playerName) => {
+		document.querySelector("#turnDisplay").style.display = "none";
+		var winDisplay = document.querySelector("#winDisplay");
+		var winMessage = winDisplay.querySelector("h1");
+		if (win){
+			winMessage.innerHTML = "Congratulations " + playerName + ", you win!";
+		}
+		else {
+			winMessage.innerHTML = "The game was a tie, that sucks :/";
+		}
+		winDisplay.style.display = "block";
+	}
+
+	const updateScore = (isP1) => {
+		if (isP1){
+			document.querySelector("#player1Card").querySelector(".score").innerHTML = p1Score;
+		}
+		else {
+			document.querySelector("#player2Card").querySelector(".score").innerHTML = p2Score;
+
+		}
+
+	}
+
+	const restart = () => {
+		GameBoard.clearBoard();
+		document.querySelector("#restartButton").style.visibility = "hidden";
+		turnCount = 0;
+		flipCoin();
+		displayTurn();
 
 	}
 
 	const start = () => {
 		flipCoin(); //random first turn
-
+		displayTurn();
+		document.querySelector("#startButton").style.display = "none";
 		
 	}
 
 	const stop = () => {
-		if (gameBoard.winningState()){
+		var win;
+		if (GameBoard.winningState()){
 			var playerName;
 			if (isP1Turn){
 				playerName = players[0].getName();
+				p1Score++;
+				updateScore(true);
 			}
 			else {
 				playerName = players[1].getName()
+				p2Score++;
+				updateScore(false);
 			}
-			alert(playerName + " wins!");
+			displayWin(true, playerName);
 		}
 		else {
-			alert("The game was a tie, that sucks");
+			displayWin(false);
 		}
+		var restartButton = document.querySelector("#restartButton");
+		restartButton.style.visibility = "visible";
+		restartButton.style.display = "block";
+
+
 	}
 
-	return {start, changeTurn, currentPlayerSymbol};
+	return {start, changeTurn, currentPlayerSymbol, isReady};
 
 })();
+
 
 addListeners();

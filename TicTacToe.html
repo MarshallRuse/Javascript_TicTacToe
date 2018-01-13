@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tic Tac Toe!</title>
+	<meta charset="UTF-8">
+
+	<!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+	
+	<link rel="stylesheet" href="TicTacToe.css">
+</head>
+<body>
+	<header>
+		<h1>Tic Tac Toe</h1>
+	</header>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-2 col-xs-offset-3 tile" data-position-num="0" id="top-left">
+			</div>
+			<div class="col-xs-2 tile" data-position-num="1" id="top-middle">
+			</div>
+			<div class="col-xs-2 tile" data-position-num="2" id="top-right">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2 col-xs-offset-3 tile" data-position-num="3" id="middle-left">
+			</div>
+			<div class="col-xs-2 tile" data-position-num="4" id="middle-middle">
+			</div>
+			<div class="col-xs-2 tile" data-position-num="5" id="middle-right">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-2 col-xs-offset-3 tile" data-position-num="6" id="bottom-left">
+			</div>
+			<div class="col-xs-2 tile" data-position-num="7" id="bottom-middle">
+			</div>
+			<div class="col-xs-2 tile" data-position-num="8" id="bottom-right">
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-4 col-xs-offset-4" id="turnDisplay">
+			<h1>Turn:</h1>
+			<h2></h2>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 20px">
+		<div class="col-xs-3 col-xs-offset-1">
+		<form class="playerForm" id="player1Form" data-player-num="1" data-player-card-id="#player1Card">
+			<fieldset>
+				<h1>Player 1</h1>
+				<h2>Name:</h2>
+				<input type="text" name="player1Name" class="playerName" value="Player 1"><br>
+				<h2>Symbol:</h2><br>
+				<input type="radio" name="player1MarkerSymbol" value="X"> X 
+				<input type="radio" name="player1MarkerSymbol" value="O"> O<br>
+				<button class="readyButton">Ready!</button>
+			</fieldset>
+		</form>
+		<div id="player1Card">
+			<h1>Player 1</h1>
+			<h2>Name: </h2>
+			<h2>Symbol: </h2>
+		</div>
+		</div>
+		<div class="col-xs-3 col-xs-offset-5">
+		<form class="playerForm" id="player2Form" data-player-num="2" data-player-card-id="#player2Card">
+			<fieldset>
+				<h1>Player 2</h1>
+				<h2>Name:</h2>
+				<input type="text" name="player2name" class="playerName" value="Player 2">
+				<h2>Symbol: </h2>
+				<input type="radio" name="player2MarkerSymbol" value="X"> X 
+				<input type="radio" name="player2MarkerSymbol" value="O"> O<br>
+				<button class="readyButton">Ready!</button>
+			</fieldset>
+		</form>
+		<div id="player2Card">
+			<h1>Player 2</h1>
+			<h2>Name: </h2>
+			<h2>Symbol: </h2>
+		</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-2 col-xs-offset-5">
+			<button id="startButton">Start!</button>
+		</div>
+	</div>
+
+</body>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+ <script src="TicTacToe.js"></script>
+</htmxs

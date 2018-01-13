@@ -1,0 +1,36 @@
+
+
+header {
+	width: 100%;
+	margin: auto;
+	text-align: center;
+}
+
+.tile {
+	background-color: beige;
+	display: block;
+	height: 100px;
+	box-sizing: border-box;
+	border: 1px solid black;
+	padding: 20px;
+	line-height: 1em;
+	text-align: center;
+	font-weight: bold;
+	font-size: 5em;
+}
+
+.playerForm h2 {
+	font-size: 1em;
+}
+
+.playerForm input[type=submit] {
+	margin-top: 10px;
+}
+
+#player1Card {
+	display: none;
+}
+
+#player2Card {
+	display: none;
+}

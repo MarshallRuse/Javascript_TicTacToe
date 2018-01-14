@@ -24,9 +24,13 @@ var GameBoard = (() => {
 	board.positions = new Array(9);
 	
 	var squares = document.querySelectorAll(".tile");
-	for (let i = 0; i < squares.length; i++){
-		let tile = Tile(squares[i].getAttribute("data-position-num"), i);
-		board.positions[i] = tile;
+	addTiles();
+	
+	function addTiles(){
+		for (let i = 0; i < squares.length; i++){
+			let tile = Tile(squares[i].getAttribute("data-position-num"), i);
+			board.positions[i] = tile;
+		}
 	}
 
 	const winningState = () => {
@@ -99,6 +103,7 @@ var GameBoard = (() => {
 	const makeMove = (position, moveMarker) => {
 		if (isLegalMove){
 			squares[position].innerHTML = moveMarker;
+			console.log(board.positions[position]);
 			board.positions[position].makeMove(moveMarker);
 			GamePlay.changeTurn();
 			return true; //legal move made
@@ -109,9 +114,8 @@ var GameBoard = (() => {
 	const clearBoard = () => {
 		for (let i = 0; i < squares.length; i++){
 			squares[i].innerHTML = "";
-			board.positions[i] = i;
 		}
-
+		addTiles();
 	}
 
 	return {board, makeMove, winningState, clearBoard};
@@ -210,7 +214,7 @@ var PlayerForm = (() => {
 
 
 
-function addListeners(){
+var EventListeners = (() => {
 	//Player Form 
 	var playerForms = document.querySelectorAll(".playerForm");
 	for (let i = 0; i < playerForms.length; i++){
@@ -221,22 +225,39 @@ function addListeners(){
 		});
 	}
 
-	//Game board tiles
-	var gameTiles = document.querySelectorAll(".tile");
-	for (let i = 0; i < gameTiles.length; i++){
-		gameTiles[i].addEventListener("click", function(e){
-			var pos = this.getAttribute("data-position-num");
-			console.log("current symbol is: " + GamePlay.currentPlayerSymbol());
-			GameBoard.makeMove(pos, GamePlay.currentPlayerSymbol());
-		});
-	}
 
 	//Start button
 	document.querySelector("#startButton").addEventListener("click", function(e){
 		GamePlay.start();
 	});
 
-}
+	//Restart button
+	document.querySelector("#restartButton").addEventListener("click", function(e){
+		GamePlay.restart();
+	});
+
+	const gameTileFunctionality = (event) => {
+		var pos = event.srcElement.getAttribute("data-position-num");
+		GameBoard.makeMove(pos, GamePlay.currentPlayerSymbol());
+	}
+
+	const addGameTilesListeners = () => {
+			//Game board tiles
+		var gameTiles = document.querySelectorAll(".tile");
+		for (let i = 0; i < gameTiles.length; i++){
+			gameTiles[i].addEventListener("click", gameTileFunctionality);
+		}
+	}
+
+	const removeGameTilesListeners = () => {
+		var gameTiles = document.querySelectorAll(".tile");
+		for (let i = 0; i < gameTiles.length; i++){
+			gameTiles[i].removeEventListener("click", gameTileFunctionality);
+		}
+	}
+
+	return {addGameTilesListeners, removeGameTilesListeners};
+})();
 
 var GamePlay = (() => {
 	var p1Score = 0;
@@ -276,6 +297,15 @@ var GamePlay = (() => {
 		}
 	}
 
+	const currentPlayerName = () => {
+		if (isP1Turn){
+			return players[0].getName();
+		}
+		else {
+			return players[1].getName();
+		}
+	}
+
 
 	var changeTurn = () => {
 		console.log(GameBoard.winningState());
@@ -300,10 +330,10 @@ var GamePlay = (() => {
 		var turnDisplay = document.querySelector("#turnDisplay").querySelector("h2");
 
 		if (turnCount === 0){
-			turnDisplayHeader.innerHTML = "Start!<br>First turn goes to:";
+			turnDisplayHeader.innerHTML = "Start!<br>First turn goes to " + currentPlayerName() + ":";	
 		}
 		else {
-			turnDisplayHeader.innerHTML = "Turn: ";
+			turnDisplayHeader.innerHTML = currentPlayerName() + "'s Turn: ";
 		}
 		turnDisplay.innerHTML = currentPlayerSymbol();
 	}
@@ -324,18 +354,25 @@ var GamePlay = (() => {
 
 	const updateScore = (isP1) => {
 		if (isP1){
-			document.querySelector("#player1Card").querySelector(".score").innerHTML = p1Score;
+			let score = document.querySelector("#player1Card").querySelector(".score");
+			score.innerHTML = p1Score;
+			score.classList.add("emphasis");
 		}
 		else {
-			document.querySelector("#player2Card").querySelector(".score").innerHTML = p2Score;
-
+			let score = document.querySelector("#player2Card").querySelector(".score");
+			score.innerHTML = p2Score;
+			score.classList.add("emphasis");
 		}
 
 	}
 
 	const restart = () => {
 		GameBoard.clearBoard();
+		EventListeners.addGameTilesListeners();
 		document.querySelector("#restartButton").style.visibility = "hidden";
+		document.querySelector("#winDisplay").style.display = "none";
+		document.querySelector("#turnDisplay").style.display = "block";
+		document.querySelector(".emphasis").classList.remove("emphasis");
 		turnCount = 0;
 		flipCoin();
 		displayTurn();
@@ -343,6 +380,7 @@ var GamePlay = (() => {
 	}
 
 	const start = () => {
+		EventListeners.addGameTilesListeners();
 		flipCoin(); //random first turn
 		displayTurn();
 		document.querySelector("#startButton").style.display = "none";
@@ -350,7 +388,7 @@ var GamePlay = (() => {
 	}
 
 	const stop = () => {
-		var win;
+		EventListeners.removeGameTilesListeners();
 		if (GameBoard.winningState()){
 			var playerName;
 			if (isP1Turn){
@@ -375,9 +413,6 @@ var GamePlay = (() => {
 
 	}
 
-	return {start, changeTurn, currentPlayerSymbol, isReady};
+	return {start, restart, changeTurn, currentPlayerSymbol, isReady};
 
 })();
-
-
-addListeners();

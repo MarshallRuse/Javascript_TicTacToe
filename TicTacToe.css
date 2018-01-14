@@ -1,5 +1,7 @@
 body {
-	background-color: #adebe9;
+	background-color: #00b0b3;
+	font-family: "Chalkduster", fantasy, serif;
+	color: white;
 
 }
 
@@ -12,18 +14,31 @@ header {
 	padding-top: 20px;
 	text-align: center;
 	font-size: 2em;
-	font-family: fantasy, "Times New Roman", serif;
 	font-weight: bold;
 	letter-spacing: 0.5em;
 	word-spacing: : 2em;
 }
 
+button {
+	color: black;
+}
+
+input {
+	color: black;
+}
+
+#gameBoard {
+	border-width: 2px;
+	border-color: white;
+	border-style: ridge;
+}
+
 .tile {
-	background-color: beige;
+	background-color: #4d4d4d;
 	display: block;
 	height: 100px;
 	box-sizing: border-box;
-	border: 1px solid black;
+	border: 1px ridge lightgrey;
 	padding: 20px;
 	line-height: 1em;
 	text-align: center;
@@ -32,14 +47,11 @@ header {
 }
 
 .tile:hover {
-	border-color: blue;
+	border-color: white;
 	border-width: 3px;
 
 }
 
-.playerForm {
-	font-family: fantasy, "Times New Roman", serif;
-}
 
 .playerForm h2 {
 	font-size: 1em;
@@ -61,13 +73,13 @@ header {
 }
 
 .playerCard {
-	font-family: fantasy, "Times New Roman", serif;
+	font-family: "Chalkduster", fantasy, "Times New Roman", serif;
 	border-style: inset;
 	padding: 5px;
 }
 
 .playerCard h2 {
-	font-color: rgba(100, 100, 100, 0.5);
+	color: mediumvioletred;
 	font-size: 2rem;
 }
 
@@ -76,6 +88,11 @@ header {
 	font-size: 2rem;
 	font-weight: bold;
 	letter-spacing: 0.1em;
+	color: lightgreen;
+}
+
+.score {
+	color: gold;
 }
 
 #turnDisplay {
@@ -109,4 +126,22 @@ header {
 	height: 3em;
 	width: 100%;
 	border-radius: 10px;
+}
+
+@keyframes scoreEmphasis {
+	from {
+		color: gold;
+	}
+	to {
+		left: 10px;
+		color: lightyellow;
+	}
+}
+
+.emphasis {
+	z-index: 2;
+	position: relative;
+	animation-name: scoreEmphasis;
+	animation-duration: 0.2s;
+	animation-iteration-count: 10;
 }

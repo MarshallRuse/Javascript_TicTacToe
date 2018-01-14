@@ -186,7 +186,7 @@ var PlayerForm = (() => {
 		form.style.display = "none";
 		var cardId = form.getAttribute("data-player-card-id");
 		var card = document.querySelector(cardId);
-		var info = card.querySelectorAll("h2");
+		var info = card.querySelectorAll("h3");
 		console.log(info[0]);
 		info[0].innerHTML += name;
 		info[1].innerHTML += symbol;

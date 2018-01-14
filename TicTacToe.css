@@ -4,6 +4,11 @@ header {
 	width: 100%;
 	margin: auto;
 	text-align: center;
+	font-size: 2em;
+	font-family: fantasy, "Times New Roman", serif;
+	font-weight: bold;
+	letter-spacing: 0.5em;
+	word-spacing: : 2em;
 }
 
 .tile {
@@ -19,8 +24,28 @@ header {
 	font-size: 5em;
 }
 
+.tile:hover {
+	border-color: blue;
+	border-width: 3px;
+
+}
+
+.playerForm {
+	font-family: fantasy, "Times New Roman", serif;
+}
+
 .playerForm h2 {
 	font-size: 1em;
+}
+
+.playerForm {
+	margin-left: 20px;
+}
+
+.playerForm input:hover {
+	border-color: blue;
+	border-width: 2px;
+
 }
 
 .playerForm button {
@@ -28,8 +53,27 @@ header {
 	border-radius: 10px;
 }
 
+.playerCard {
+	font-family: fantasy, "Times New Roman", serif;
+	border-style: inset;
+	padding: 5px;
+}
+
+.playerCard h2 {
+	font-color: rgba(100, 100, 100, 0.5);
+	font-size: 2rem;
+}
+
+.playerCard h3 {
+	margin: 0px;
+	font-size: 2rem;
+	font-weight: bold;
+	letter-spacing: 0.1em;
+}
+
 #turnDisplay {
 	text-align: center;
+	padding-bottom: 0px;
 }
 
 #winDisplay {

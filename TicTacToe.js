@@ -367,12 +367,14 @@ var GamePlay = (() => {
 	}
 
 	const restart = () => {
+		if (GameBoard.winningState()){
+			document.querySelector(".emphasis").classList.remove("emphasis");
+		}
 		GameBoard.clearBoard();
 		EventListeners.addGameTilesListeners();
 		document.querySelector("#restartButton").style.visibility = "hidden";
 		document.querySelector("#winDisplay").style.display = "none";
 		document.querySelector("#turnDisplay").style.display = "block";
-		document.querySelector(".emphasis").classList.remove("emphasis");
 		turnCount = 0;
 		flipCoin();
 		displayTurn();
